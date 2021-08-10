@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+ 
+    *{
+ 
+      margin: 0;
+ 
+      padding:0;
+ 
+    }
+    html {
+        background:black url(images/QQ图片20210809154700.png ) no-repeat;
+        background-size: cover;
+    }
+
+    .date {
+        position:fixed;
+        top:30vh;
+        left:20vh;
+        font-size: 28px;
+        color:rgb(231, 223, 223);
+         
+    }
+ 
+    .text {
+        position:fixed;
+        top:40vh;
+        left:20vh;
+        font-size: 25px;
+        color:rgb(231, 223, 223);
+        
+ 
+    }
+ 
+    .times {
+        position:fixed;
+        top:50vh;
+        left:20vh;
+        font-size: 50px;
+        color:rgb(250,234,121);
+        text-shadow:1px 1px 1px rgba(243, 229, 125,0.5);
+ 
+    }
+ 
+    p span.time {
+ 
+      color:rgba(218, 206, 115,0.5);
+      font-size:30px ;
+ 
+    }
+ 
+    body{padding-top:200px;}
+ 
+  </style>
+ 
+</head>
+ 
+<body>
+
+<p class="date"></p>
+ 
+<p class="text">Fishing Time Left</p>
+ 
+<p class="times"><span></span></p>
+ 
+<script>
+ 
+  var theSpan = document.getElementsByTagName('span')[0];//即使只有一个元素也以伪数组的形式存放
+  var theDate = document.getElementsByClassName('date')[0];
+  function jialing(n) {
+ 
+    return n >= 0 && n < 10 ? '0' + n : '' + n;
+ 
+  }
+ 
+  function getDate() {
+ 
+    var oDate = new Date();//获取当前日期
+    var newDate = new Date('2021/9/1 00:00:00');
+    var newTime = newDate.getTime();
+    var second = Math.floor((newTime - oldTime) / 1000);
+    var day = Math.floor(second / 86400);
+    second = second % 86400;
+    var hour = Math.floor(second / 3600);
+    second %= 3600; 
+    var minute = Math.floor(second / 60);
+    second %= 60;
+    second++;
+ 
+    var str = jialing(day) + '<span class="time">天&nbsp&nbsp&nbsp</span>' + jialing(hour) + '<span class="time">小时&nbsp&nbsp&nbsp</span>'
+ 
+        + jialing(minute) + '<span class="time">分钟&nbsp&nbsp&nbsp</span>' + jialing(second) + '<span class="time">秒</span>';//拼接字符串
+   theSpan.innerHTML = str;//修改内容
+    theDate.innerHTML =oDate;
+ 
+  }
+ 
+  getDate();
+ 
+  setInterval(getDate, 1000);//保持以一定的频率调用该函数，使结果保持动态
+ 
+</script>
+ 
+</body>
+ 
+</html>

@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        *{
+            padding:0;
+            margin:0;
+         }
+         html{
+             background-image:  url(images/QQ图片20210816192757.png);
+             background-size: cover;
+
+         }
+         div {
+             color:black;
+             width:200px;
+             margin: 20vh auto;
+             padding: 30px;
+             padding-top: 40px;
+             background-color:rgba(255,255,255,0.4);
+             border-radius: 10px;
+             
+         }
+        
+         
+         input {
+             color:rgb(31, 30, 30);
+             padding:2px;
+             height:30px;
+             width:200px;
+             border: none;
+             background-color: rgb(255,255,255,0.3);
+         }
+         
+
+         .warn {
+             font-size: 10px;
+         }
+         .legalTips {
+             color:green;
+         }
+         .lllegalTips {
+             color:red;
+         }
+        
+
+    </style>
+</head>
+<body>
+    <div>
+       
+
+        <p class="item">十六进制颜色表达式</p>
+        <input type="text" value="请输入十六进制颜色表达式">
+        <p class="warn">&nbsp</p>
+        
+        <p class="item">rgb颜色表达式</p>
+        <input type="text" value="请输入rgb颜色表达式">
+        <p class="warn">&nbsp</p>
+
+        <p class="item">随便输入什么</p>
+        <input type="text" value="请输入不包含中文的字符串">
+        <p class="warn">&nbsp</p>
+
+        
+    </div>
+    <script>
+        //获取元素
+        var text =document.getElementsByTagName('input');
+
+        var warns = document.getElementsByClassName('warn');
+        
+        //验证16进制是否合法
+        function checkUsername(text,warn){
+            var reg=/^#[a-fA-F0-9]{3,}/;
+            if(reg.test((text.value.length==4||text.value.length==7)&&text.value)){
+                warn.innerHTML= '合法';
+                warn.className= 'warn legalTips';
+            }
+            else{
+                warn.innerHTML= '不合法';
+                warn.className= 'warn lllegalTips';
+            }
+        }
+        //验证rgb合法性
+        function checkKey(text,warn){
+            var reg=/^[rR]?[gG]?[Bb]?[Aa]?[\(]([\s]*(2[0-4][0-9]|25[0-5]|[01]?[0-9][0-9]?),){2}[\s]*(2[0-4][0-9]|25[0-5]|[01]?[0-9][0-9]?),?[\s]*(0\.\d{1,2}|1|0)?[\)]{1}$/g;
+            if(reg.test(text.value)){
+                warn.innerHTML= '合法';
+                warn.className= 'warn legalTips';    
+            }
+            else{
+                warn.innerHTML= '不合法';
+                warn.className= 'warn lllegalTips'; 
+            }
+        }
+        //验证字符串合法性
+        function recheckKey(text,warn){
+            var reg= /^[^\u4e00-\u9fa5]+$/;
+            if(reg.test(text.value)){
+                warn.innerHTML= '合法';
+                warn.className= 'warn legalTips';    
+            }
+            else{
+                warn.innerHTML= '警告：不能含有中文';
+                warn.className= 'warn lllegalTips'; 
+            }
+        }
+       
+        //获取焦点
+        for(var i=0;i<text.length;i++){
+            text[i].onfocus =function(){
+                if (this.value==='请输入十六进制颜色表达式'||this.value==='请输入rgb颜色表达式'||this.value==='请输入不包含中文的字符串'){
+                    this.value='';
+                }
+                this.style.color='black';
+            }
+        }
+        //离开焦点
+        text[0].onblur=function(){
+            if(this.value===''){
+                this.value='请输入十六进制颜色表达式';
+            }
+            checkUsername(text[0],warns[0]);
+        }
+        text[1].onblur=function(){
+            if(this.value===''){
+                this.value='请输入rgb颜色表达式';
+            }
+            checkKey(text[1],warns[1]);
+        }
+        text[2].onblur=function(){
+            if(this.value===''){
+                this.value='请输入不包含中文的字符串';
+            }
+            recheckKey(text[2],warns[2]);
+        }
+   
+    </script>
+</body>
+</html>

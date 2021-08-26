@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            border: 0;
+        }
+
+        ul li {
+            list-style-type: none;
+        }
+
+        main {
+            width: 100%;
+            min-height: 800px;
+            border: 2px solid rgb(255, 150, 128);
+            margin: 0 auto;
+
+            background: rgb(255, 150, 128);
+            /*align-content: center;*/
+            /*justify-content: center;*/
+
+            display: grid;
+
+            /*主轴居中*/
+            justify-items: center;
+            /*交叉轴居中*/
+            align-items: center;
+       }
+
+        .container {
+            height:500px;
+            width: 300px;
+            background:rgb(0,49,79);
+            border: none;
+            border-radius: 10px;
+            box-shadow: 5px 5px 2px rgba(0,0,0,0.5);
+            text-align: center;
+        }
+
+        .header{
+            width:auto;
+            height:100px;
+            color:white;
+            font-size:40px;
+            font-weight: 700;
+            text-align: center;
+            padding-top: 50px;
+        }
+        .search-box {
+            width:auto;
+            height:40px;
+            background-color: cornsilk;
+            border-radius: 50px;
+            margin-left:20px;
+            margin-right: 20px;
+
+        }
+
+
+        input[name="search-input"] {
+            border:none;
+            border-radius: 50px;
+            background-color: cornsilk;
+             text-align: center;
+            outline: none;
+            width:190px;
+            height:40px;
+            float:none;
+            color:darkgray;
+            padding-left: 20px;
+        }
+
+
+        button { /* 按钮美化 */
+            height:40px;
+            width:50px;
+            border:0;
+            background-color: cornsilk;
+            cursor:pointer;
+            transition: background 0.5s;
+            color: cornsilk;
+            font-weight: 700;
+            border-bottom-right-radius:50px;
+            border-top-right-radius: 50px;
+            float:right;
+        }
+
+        .onclickbto{
+           height:40px;
+            width:50px;
+            border:0;
+            background-color:rgb(255, 150, 128);
+            cursor:pointer;
+            transition: background 0.5s;
+            color: cornsilk;
+            font-weight: 700;
+            border-bottom-right-radius:50px;
+            border-top-right-radius: 50px;
+            float:right;
+           
+        }
+
+
+        ul li {
+            text-align: left;
+            color: white;
+            font-weight: bold;
+            font-size: 16px;
+           
+            width:auto;
+            height:20px;
+            background-color:rgb(6, 2, 65);
+            border-radius: 10px;
+            margin:20px;
+            padding:20px;
+            padding-bottom:10px;
+            padding-top: 10px;
+        }
+        
+
+        li .del {
+            width:12px;
+            height:12px;
+            border:5px solid rgb(255, 150, 128);
+            float: right;
+            color:cornsilk;
+            background-color: cornsilk;
+            border-radius: 100%;
+        }
+        li .del :hover{
+            background-color:rgb(255, 150, 128);
+        }
+
+        li .suggest {
+            color: red;
+        }
+    </style>
+</head>
+<body>
+<main>
+    <div class="container">
+        <div class="header">Todos</div>
+        <div class="search-box">
+            <label>
+                <input id="id-input" name="search-input" type="text" value="别玩了懒狗"/>
+                <button id="id-commit">提交</button>
+            </label>
+        </div>
+        <div class="suggest-box">
+            <ul id="id-suggest">
+            </ul>
+        </div>
+    </div>
+</main>
+
+<script>
+    let eInput = document.getElementById("id-input");
+    let eCommit = document.getElementById("id-commit");
+    let eSuggest = document.getElementById("id-suggest");
+
+
+    eInput.onfocus=function(){
+            if(eInput.value==='别玩了懒狗'){
+                eInput.value='';
+            }
+            eInput.style.textAlign='left';
+            eCommit.className="onclickbto";
+        }
+    eInput.onblur=function(){
+            if(this.value===''){
+                this.value='别玩了懒狗';
+                eCommit.className="bto";
+                eInput.style.textAlign='center';
+            }
+        }
+    // 提交
+    function commit() {
+        var textStr = eInput.value;
+        /**/
+                        if (textStr === '') {
+                            return;
+                            }
+
+                        let tLi = document.createElement('li');
+                        let tSpan = document.createElement('span');
+                        let tA = document.createElement('div');
+
+                        tA.className = "del";
+                        tA.innerText = "";
+       
+
+                        tLi.appendChild(tSpan);
+                        tLi.appendChild(tA);
+                        tSpan.innerText = textStr;
+
+                        eSuggest.appendChild(tLi);
+
+                        // 清空输入框
+                        eInput.value = '';
+
+                        // 绑定删除方法
+                        tA.onclick = function (event) {
+
+                            event.preventDefault();
+                            eSuggest.removeChild(this.parentNode);
+                        };
+              
+
+                    }
+    /*eInput.onkeyup = function (event) {
+        if (event.keyCode === 13) {
+            commit();
+        }
+    }*///enter提交
+
+            const xhrh =new XMLHttpRequest();
+            
+            xhrh.open('Get','http://47.113.187.45:8989/todo/index/selectAll');
+            
+            xhrh.send();
+           
+            xhrh.onreadystatechange = function(){
+                if(xhrh.readyState===4){
+                    if(xhrh.status>=200&&xhrh.status<300){
+                       
+                       console.log(xhrh.response);
+                    }
+                   
+                }
+            }
+
+
+    var msg;
+    
+    eCommit.onclick = function () {
+
+        var msgs=eInput.value;
+        console.log(msgs);
+        const xhr =new XMLHttpRequest();
+            //2.初始化，设置请求方式和url
+            xhr.open('POST','http://47.113.187.45:8989/todo/index/create');
+            //url设置参数 eg 'http://127.0.0.1:8000/server?a=100&b=50&&c=5'
+            //3.send
+            xhr.setRequestHeader("Content-type","application/x-www-form-urlencoded;charsett=utf-8");
+            xhr.send('msg='+msgs);
+            //Content-Type-Options: nosniff
+            //时间绑定，处理返回结果
+            //on when.....   
+            //readystate 属性，表示状态，有0 1 2 3 4四种状态
+            //change 改变
+            xhr.onreadystatechange=function(){
+                if(xhr.readyState==4){
+                    if(xhr.status>=200&&xhr.status<300){
+                   commit();
+                    }
+                }
+                else{
+                    
+                   console.log("false");
+                }
+            }
+    }
+   
+
+    
+</script>
+</body>
+</html>
